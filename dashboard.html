@@ -246,7 +246,7 @@
         <section class="mt-6 rounded-xl border border-slate-200 bg-white shadow-sm">
           <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
             <h2 class="text-lg font-bold text-slate-900">All Ads listings</h2>
-            <span class="rounded-lg bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">5 Products</span>
+            <span id="productsCount" class="rounded-lg bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">0 Products</span>
           </div>
 
           <div class="overflow-x-auto">
@@ -265,164 +265,8 @@
                 </tr>
               </thead>
               <tbody id="adsTableBody" class="divide-y divide-slate-100">
-                <tr class="ad-row hover:bg-slate-50" data-name="Chair Comfort">
-                  <td class="px-5 py-4">
-                    <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=80&q=80" alt="Chair Comfort" class="h-11 w-11 rounded-lg object-cover" />
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900 product-name">Chair Comfort</p>
-                    <p class="text-xs text-slate-500">Limitless time</p>
-                  </td>
-                  <td class="px-5 py-4 text-slate-700">Search Product</td>
-                  <td class="px-5 py-4 text-slate-700">Without limit</td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">2k</p>
-                    <p class="text-xs font-medium text-rose-500">-80%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">88</p>
-                    <p class="text-xs font-medium text-rose-500">-80%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">4,45%</p>
-                    <p class="text-xs font-medium text-emerald-500">+4,1%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">95.000 Gs</p>
-                    <p class="text-xs font-medium text-emerald-500">+8%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">4.050.000 Gs</p>
-                    <p class="text-xs font-medium text-emerald-500">+60%</p>
-                  </td>
-                </tr>
-
-                <tr class="ad-row hover:bg-slate-50" data-name="Chair Labelis">
-                  <td class="px-5 py-4">
-                    <img src="https://images.unsplash.com/photo-1484101403633-562f891dc89a?auto=format&fit=crop&w=80&q=80" alt="Chair Labelis" class="h-11 w-11 rounded-lg object-cover" />
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900 product-name">Chair Labelis</p>
-                    <p class="text-xs text-slate-500">Limitless time</p>
-                  </td>
-                  <td class="px-5 py-4 text-slate-700">Search Product</td>
-                  <td class="px-5 py-4 text-slate-700">Without limit</td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">170</p>
-                    <p class="text-xs font-medium text-emerald-500">+70%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">180</p>
-                    <p class="text-xs font-medium text-emerald-500">+20%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">4,45%</p>
-                    <p class="text-xs font-medium text-emerald-500">+6,1%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">145.000 Gs</p>
-                    <p class="text-xs font-medium text-rose-500">-8%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">2.800.000 Gs</p>
-                    <p class="text-xs font-medium text-rose-500">-80%</p>
-                  </td>
-                </tr>
-
-                <tr class="ad-row hover:bg-slate-50" data-name="Sofa Infinity">
-                  <td class="px-5 py-4">
-                    <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=80&q=80" alt="Sofa Infinity" class="h-11 w-11 rounded-lg object-cover" />
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900 product-name">Sofa Infinity</p>
-                    <p class="text-xs text-slate-500">30 days promo</p>
-                  </td>
-                  <td class="px-5 py-4 text-slate-700">Display Ads</td>
-                  <td class="px-5 py-4 text-slate-700">Budget capped</td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">5,2k</p>
-                    <p class="text-xs font-medium text-emerald-500">+12%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">310</p>
-                    <p class="text-xs font-medium text-emerald-500">+9%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">5,96%</p>
-                    <p class="text-xs font-medium text-emerald-500">+1,4%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">220.000 Gs</p>
-                    <p class="text-xs font-medium text-emerald-500">+5%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">6.340.000 Gs</p>
-                    <p class="text-xs font-medium text-emerald-500">+14%</p>
-                  </td>
-                </tr>
-
-                <tr class="ad-row hover:bg-slate-50" data-name="Table Nordic">
-                  <td class="px-5 py-4">
-                    <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=80&q=80" alt="Table Nordic" class="h-11 w-11 rounded-lg object-cover" />
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900 product-name">Table Nordic</p>
-                    <p class="text-xs text-slate-500">15 days boost</p>
-                  </td>
-                  <td class="px-5 py-4 text-slate-700">Search Product</td>
-                  <td class="px-5 py-4 text-slate-700">Without limit</td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">1,7k</p>
-                    <p class="text-xs font-medium text-rose-500">-5%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">121</p>
-                    <p class="text-xs font-medium text-rose-500">-2%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">7,11%</p>
-                    <p class="text-xs font-medium text-emerald-500">+0,8%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">120.000 Gs</p>
-                    <p class="text-xs font-medium text-rose-500">-1%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">3.500.000 Gs</p>
-                    <p class="text-xs font-medium text-emerald-500">+3%</p>
-                  </td>
-                </tr>
-
-                <tr class="ad-row hover:bg-slate-50" data-name="Lamp Aurora">
-                  <td class="px-5 py-4">
-                    <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=80&q=80" alt="Lamp Aurora" class="h-11 w-11 rounded-lg object-cover" />
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900 product-name">Lamp Aurora</p>
-                    <p class="text-xs text-slate-500">Weekend campaign</p>
-                  </td>
-                  <td class="px-5 py-4 text-slate-700">Display Ads</td>
-                  <td class="px-5 py-4 text-slate-700">Budget capped</td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">890</p>
-                    <p class="text-xs font-medium text-emerald-500">+18%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">77</p>
-                    <p class="text-xs font-medium text-emerald-500">+11%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">8,65%</p>
-                    <p class="text-xs font-medium text-emerald-500">+2,4%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">80.000 Gs</p>
-                    <p class="text-xs font-medium text-emerald-500">+2%</p>
-                  </td>
-                  <td class="px-5 py-4">
-                    <p class="font-semibold text-slate-900">1.850.000 Gs</p>
-                    <p class="text-xs font-medium text-emerald-500">+9%</p>
-                  </td>
+                <tr>
+                  <td colspan="9" class="px-5 py-8 text-center text-sm text-slate-500">Cargando productos de Dropi...</td>
                 </tr>
               </tbody>
             </table>
@@ -499,17 +343,124 @@
       });
 
       const topSearchInput = document.getElementById('topSearch');
-      const adRows = Array.from(document.querySelectorAll('.ad-row'));
+      const adsTableBody = document.getElementById('adsTableBody');
+      const productsCount = document.getElementById('productsCount');
 
-      topSearchInput.addEventListener('input', (event) => {
-        const query = event.target.value.trim().toLowerCase();
+      const formatPercent = (value = 0) => {
+        const sign = value >= 0 ? '+' : '';
+        const css = value >= 0 ? 'text-emerald-500' : 'text-rose-500';
+        return `<p class="text-xs font-medium ${css}">${sign}${value.toFixed(2)}%</p>`;
+      };
 
-        adRows.forEach((row) => {
-          const productName = row.dataset.name.toLowerCase();
+      const renderConnectionError = () => {
+        adsTableBody.innerHTML = `
+          <tr>
+            <td colspan="9" class="px-5 py-8 text-center text-sm text-rose-500">Error de conexión</td>
+          </tr>
+        `;
+        productsCount.textContent = '0 Products';
+      };
+
+      const createMetricCell = (mainValue, changeValue = 0) => `
+        <td class="px-5 py-4">
+          <p class="font-semibold text-slate-900">${mainValue}</p>
+          ${formatPercent(changeValue)}
+        </td>
+      `;
+
+      const buildProductRow = (product) => {
+        const shipping = 25000;
+        const salePrice = Number(product.sale_price ?? product.price ?? 0);
+        const productCost = Number(product.cost_price ?? product.cost ?? 0);
+        const priceWithIva = salePrice / 1.1;
+        const netMargin = priceWithIva - productCost - shipping;
+
+        const views = Number(product.views ?? product.impressions ?? 0);
+        const clicks = Number(product.clicks ?? 0);
+        const ctr = views > 0 ? (clicks / views) * 100 : 0;
+
+        const name = product.name ?? 'Producto sin nombre';
+        const image = product.image ?? product.image_url ?? 'https://placehold.co/80x80/F1F5F9/64748B?text=ShoPy';
+        const type = product.type ?? product.channel ?? 'Dropi Product';
+        const mode = product.mode ?? 'Without limit';
+
+        const viewsChange = Number(product.views_change ?? 0);
+        const clicksChange = Number(product.clicks_change ?? 0);
+        const ctrChange = Number(product.ctr_change ?? 0);
+        const costChange = Number(product.cost_change ?? 0);
+        const saleChange = Number(product.sale_change ?? 0);
+
+        return `
+          <tr class="ad-row hover:bg-slate-50" data-name="${name.toLowerCase()}">
+            <td class="px-5 py-4">
+              <img src="${image}" alt="${name}" class="h-11 w-11 rounded-lg object-cover" />
+            </td>
+            <td class="px-5 py-4">
+              <p class="font-semibold text-slate-900 product-name">${name}</p>
+              <p class="text-xs text-slate-500">Margen neto: ${formatPYG(netMargin)}</p>
+            </td>
+            <td class="px-5 py-4 text-slate-700">${type}</td>
+            <td class="px-5 py-4 text-slate-700">${mode}</td>
+            ${createMetricCell(views.toLocaleString('es-PY'), viewsChange)}
+            ${createMetricCell(clicks.toLocaleString('es-PY'), clicksChange)}
+            ${createMetricCell(`${ctr.toFixed(2).replace('.', ',')}%`, ctrChange)}
+            ${createMetricCell(formatPYG(productCost), costChange)}
+            ${createMetricCell(formatPYG(priceWithIva), saleChange)}
+          </tr>
+        `;
+      };
+
+      const filterAdsTable = () => {
+        const query = topSearchInput.value.trim().toLowerCase();
+        const rows = Array.from(document.querySelectorAll('.ad-row'));
+
+        rows.forEach((row) => {
+          const productName = row.dataset.name || '';
           const matches = productName.includes(query);
           row.classList.toggle('hidden', !matches);
         });
-      });
+      };
+
+      async function loadDropiData() {
+        const DROPI_TOKEN = 'REEMPLAZAR_CON_TOKEN_DROPI';
+        const endpoint = 'https://api.dropi.co/products';
+
+        try {
+          const response = await fetch(endpoint, {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${DROPI_TOKEN}`,
+              'Content-Type': 'application/json'
+            }
+          });
+
+          if (!response.ok) {
+            throw new Error('Dropi API request failed');
+          }
+
+          const payload = await response.json();
+          const products = payload?.data ?? payload?.products ?? [];
+
+          if (!products.length) {
+            adsTableBody.innerHTML = `
+              <tr>
+                <td colspan="9" class="px-5 py-8 text-center text-sm text-slate-500">Sin productos disponibles</td>
+              </tr>
+            `;
+            productsCount.textContent = '0 Products';
+            return;
+          }
+
+          adsTableBody.innerHTML = products.map(buildProductRow).join('');
+          productsCount.textContent = `${products.length} Products`;
+          filterAdsTable();
+        } catch (error) {
+          renderConnectionError();
+        }
+      }
+
+      topSearchInput.addEventListener('input', filterAdsTable);
+      loadDropiData();
     </script>
   </body>
 </html>
