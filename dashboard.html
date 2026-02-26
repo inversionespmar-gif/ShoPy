@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShoPy | Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      if (!localStorage.getItem('shopy_session')) {
+        window.location.replace('./index.html');
+      }
+    </script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']
+            }
+          }
+        }
+      };
+    </script>
+  </head>
+
+  <body class="bg-[#F9FAFB] font-sans text-slate-800 antialiased">
+    <div class="flex min-h-screen">
+      <aside class="fixed inset-y-0 left-0 z-30 w-72 border-r border-slate-200 bg-white">
+        <div class="flex h-full flex-col">
+          <div class="flex items-center gap-3 border-b border-slate-100 px-6 py-6">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white">
+              <i data-lucide="shopping-bag" class="h-5 w-5"></i>
+            </div>
+            <div>
+              <p class="text-lg font-bold tracking-tight text-blue-600">ShoPy</p>
+              <p class="text-xs text-slate-500">Admin Panel</p>
+            </div>
+          </div>
+
+          <nav class="flex-1 space-y-1 overflow-y-auto px-4 py-5">
+            <a href="#" class="flex items-center gap-3 rounded-xl bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-700">
+              <i data-lucide="layout-dashboard" class="h-4 w-4"></i>
+              Dashboard
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="truck" class="h-4 w-4"></i>
+              Delivery
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="clipboard-list" class="h-4 w-4"></i>
+              Order
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="package" class="h-4 w-4"></i>
+              Product
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="tag" class="h-4 w-4"></i>
+              My Promotion
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="wallet" class="h-4 w-4"></i>
+              Finance
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="bar-chart-3" class="h-4 w-4"></i>
+              Data
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="badge-check" class="h-4 w-4"></i>
+              Seller Development
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="target" class="h-4 w-4"></i>
+              Sales Program
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="life-buoy" class="h-4 w-4"></i>
+              Buyer Services
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="store" class="h-4 w-4"></i>
+              Shop
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="settings" class="h-4 w-4"></i>
+              Settings
+            </a>
+          </nav>
+
+          <div class="border-t border-slate-100 p-4">
+            <button
+              id="logoutButton"
+              type="button"
+              class="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-200"
+            >
+              <i data-lucide="log-out" class="h-4 w-4"></i>
+              Cerrar Sesión
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="ml-72 w-full p-8 lg:p-10">
+        <header class="mb-6 flex flex-wrap items-center justify-between gap-4">
+          <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">Dashboard</h1>
+
+          <label class="relative mx-auto w-full max-w-xl">
+            <i data-lucide="search" class="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"></i>
+            <input
+              id="topSearch"
+              type="search"
+              placeholder="Buscar por nombre de producto"
+              class="w-full rounded-xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-sm shadow-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            />
+          </label>
+
+          <div class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm">
+            <img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80"
+              alt="Yoga Wibowo"
+              class="h-10 w-10 rounded-full object-cover"
+            />
+            <div class="leading-tight">
+              <p class="text-sm font-semibold text-slate-900">Yoga Wibowo</p>
+              <p class="text-xs text-slate-500">Admin 1</p>
+            </div>
+          </div>
+        </header>
+
+        <section class="mb-6 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-5 text-white shadow-sm">
+          <div class="flex items-center justify-between gap-4">
+            <div>
+              <p class="text-sm font-medium opacity-90">The easiest way to increase sales up to 22 times.</p>
+              <p class="mt-1 text-xs opacity-80">Unleash your store potential with ShoPy insights.</p>
+            </div>
+            <button class="rounded-xl bg-white/95 px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-white">Get Started</button>
+          </div>
+        </section>
+
+        <section class="mb-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <article class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+            <div class="flex items-center gap-2 border-b border-slate-100 px-4 py-3 text-sm font-semibold text-slate-700">
+              <i data-lucide="truck" class="h-4 w-4"></i>
+              Delivery
+            </div>
+            <div class="grid grid-cols-2 divide-x divide-slate-100">
+              <div class="px-4 py-3">
+                <p class="text-2xl font-bold text-slate-900">210</p>
+                <p class="text-sm text-slate-500">Processing</p>
+              </div>
+              <div class="px-4 py-3">
+                <p class="text-2xl font-bold text-slate-900">14</p>
+                <p class="text-sm text-slate-500">Processed</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+            <div class="flex items-center gap-2 border-b border-slate-100 px-4 py-3 text-sm font-semibold text-slate-700">
+              <i data-lucide="wallet" class="h-4 w-4"></i>
+              Payment
+            </div>
+            <div class="grid grid-cols-2 divide-x divide-slate-100">
+              <div class="px-4 py-3">
+                <p class="text-2xl font-bold text-slate-900">6</p>
+                <p class="text-sm text-slate-500">Not yet paid</p>
+              </div>
+              <div class="px-4 py-3">
+                <p class="text-2xl font-bold text-slate-900">4</p>
+                <p class="text-sm text-slate-500">Promo</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+            <div class="flex items-center gap-2 border-b border-slate-100 px-4 py-3 text-sm font-semibold text-slate-700">
+              <i data-lucide="package" class="h-4 w-4"></i>
+              Product
+            </div>
+            <div class="grid grid-cols-2 divide-x divide-slate-100">
+              <div class="px-4 py-3">
+                <p class="text-2xl font-bold text-slate-900">0</p>
+                <p class="text-sm text-slate-500">Product block</p>
+              </div>
+              <div class="px-4 py-3">
+                <p class="text-2xl font-bold text-slate-900">120</p>
+                <p class="text-sm text-slate-500">Sold out</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+            <div class="flex items-center gap-2 border-b border-slate-100 px-4 py-3 text-sm font-semibold text-slate-700">
+              <i data-lucide="messages-square" class="h-4 w-4"></i>
+              Response
+            </div>
+            <div class="grid grid-cols-2 divide-x divide-slate-100">
+              <div class="px-4 py-3">
+                <p class="text-2xl font-bold text-slate-900">2</p>
+                <p class="text-sm text-slate-500">Cancelation</p>
+              </div>
+              <div class="px-4 py-3">
+                <p class="text-2xl font-bold text-slate-900">4</p>
+                <p class="text-sm text-slate-500">Return</p>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:p-6">
+          <div class="mb-4 flex items-center justify-between">
+            <div>
+              <p class="text-sm text-slate-500">Selling</p>
+              <p class="text-3xl font-bold text-slate-900">4.194.592 Gs</p>
+              <p class="text-xs text-slate-500">(125k avg.score)</p>
+            </div>
+            <p class="text-sm font-semibold text-emerald-500">+25.02%</p>
+          </div>
+
+          <div class="grid gap-6 lg:grid-cols-[2fr_1fr]">
+            <div class="rounded-xl bg-slate-50 p-3">
+              <canvas id="sellingChart" class="h-64 w-full"></canvas>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 lg:grid-cols-1">
+              <article class="rounded-xl border border-slate-200 p-4">
+                <p class="text-sm text-slate-500">Total Visitor</p>
+                <p class="mt-1 text-2xl font-bold text-slate-900">400</p>
+                <p class="mt-1 text-xs font-medium text-rose-500">vs yesterday (-0.05%)</p>
+              </article>
+
+              <article class="rounded-xl border border-slate-200 p-4">
+                <p class="text-sm text-slate-500">Product Seen</p>
+                <p class="mt-1 text-2xl font-bold text-slate-900">8250</p>
+                <p class="mt-1 text-xs font-medium text-rose-500">vs yesterday (-5.27%)</p>
+              </article>
+
+              <article class="rounded-xl border border-slate-200 p-4">
+                <p class="text-sm text-slate-500">Order</p>
+                <p class="mt-1 text-2xl font-bold text-slate-900">200</p>
+                <p class="mt-1 text-xs font-medium text-emerald-500">vs yesterday (+30.00%)</p>
+              </article>
+
+              <article class="rounded-xl border border-slate-200 p-4">
+                <p class="text-sm text-slate-500">Conversion Rate</p>
+                <p class="mt-1 text-2xl font-bold text-slate-900">4,50%</p>
+                <p class="mt-1 text-xs font-medium text-emerald-500">vs yesterday (+3,26%)</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="mt-6 rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+            <h2 class="text-lg font-bold text-slate-900">All Ads listings</h2>
+            <span id="productsCount" class="rounded-lg bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">0 Products</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-left text-sm">
+              <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                <tr>
+                  <th class="px-5 py-3">Imagen</th>
+                  <th class="px-5 py-3">Nombre</th>
+                  <th class="px-5 py-3">Tipo</th>
+                  <th class="px-5 py-3">Modalidad</th>
+                  <th class="px-5 py-3">Vistas</th>
+                  <th class="px-5 py-3">Clics</th>
+                  <th class="px-5 py-3">CTR</th>
+                  <th class="px-5 py-3">Costo</th>
+                  <th class="px-5 py-3">Venta</th>
+                </tr>
+              </thead>
+              <tbody id="adsTableBody" class="divide-y divide-slate-100">
+                <tr>
+                  <td colspan="9" class="px-5 py-8 text-center text-sm text-slate-500">Cargando productos de Dropi...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      lucide.createIcons();
+
+      const chartCanvas = document.getElementById('sellingChart');
+      const chartContext = chartCanvas.getContext('2d');
+      const gradient = chartContext.createLinearGradient(0, 0, 0, 260);
+      gradient.addColorStop(0, 'rgba(37, 99, 235, 0.35)');
+      gradient.addColorStop(1, 'rgba(37, 99, 235, 0.02)');
+
+      const formatPYG = (value) => `${Number(value).toLocaleString('es-PY')} Gs`;
+
+      const labels = ['00', '03', '06', '09', '12', '15', '18', '21', '24', '28'];
+
+      const randomSellingData = labels.map(() => {
+        const baseValue = 450000;
+        const movement = Math.floor(Math.random() * 1400000);
+        const rawValue = baseValue + movement;
+        return Math.round(rawValue / 10000) * 10000;
+      });
+
+      new Chart(chartContext, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            {
+              data: randomSellingData,
+              fill: true,
+              backgroundColor: gradient,
+              borderColor: '#2563EB',
+              borderWidth: 2,
+              tension: 0.4,
+              pointRadius: 0,
+              pointHoverRadius: 4,
+              pointBackgroundColor: '#2563EB'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: '#0F172A',
+              titleColor: '#fff',
+              bodyColor: '#fff',
+              displayColors: false,
+              callbacks: {
+                label(context) {
+                  return formatPYG(context.raw);
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: 'rgba(148, 163, 184, 0.18)' },
+              ticks: { color: '#64748B' }
+            },
+            y: {
+              beginAtZero: true,
+              grid: { color: 'rgba(148, 163, 184, 0.18)' },
+              ticks: {
+                color: '#64748B',
+                callback(value) {
+                  return formatPYG(value);
+                }
+              }
+            }
+          }
+        }
+      });
+
+      const topSearchInput = document.getElementById('topSearch');
+      const logoutButton = document.getElementById('logoutButton');
+      const adsTableBody = document.getElementById('adsTableBody');
+      const productsCount = document.getElementById('productsCount');
+
+      const formatPercent = (value = 0) => {
+        const sign = value >= 0 ? '+' : '';
+        const css = value >= 0 ? 'text-emerald-500' : 'text-rose-500';
+        return `<p class="text-xs font-medium ${css}">${sign}${value.toFixed(2)}%</p>`;
+      };
+
+      const renderConnectionError = () => {
+        adsTableBody.innerHTML = `
+          <tr>
+            <td colspan="9" class="px-5 py-8 text-center text-sm text-rose-500">Error de conexión</td>
+          </tr>
+        `;
+        productsCount.textContent = '0 Products';
+      };
+
+      const createMetricCell = (mainValue, changeValue = 0) => `
+        <td class="px-5 py-4">
+          <p class="font-semibold text-slate-900">${mainValue}</p>
+          ${formatPercent(changeValue)}
+        </td>
+      `;
+
+      const buildProductRow = (product) => {
+        const shipping = 25000;
+        const salePrice = Number(product.sale_price ?? product.price ?? 0);
+        const productCost = Number(product.cost_price ?? product.cost ?? 0);
+        const priceWithIva = salePrice / 1.1;
+        const netMargin = priceWithIva - productCost - shipping;
+
+        const views = Number(product.views ?? product.impressions ?? 0);
+        const clicks = Number(product.clicks ?? 0);
+        const ctr = views > 0 ? (clicks / views) * 100 : 0;
+
+        const name = product.name ?? 'Producto sin nombre';
+        const image = product.image ?? product.image_url ?? 'https://placehold.co/80x80/F1F5F9/64748B?text=ShoPy';
+        const type = product.type ?? product.channel ?? 'Dropi Product';
+        const mode = product.mode ?? 'Without limit';
+
+        const viewsChange = Number(product.views_change ?? 0);
+        const clicksChange = Number(product.clicks_change ?? 0);
+        const ctrChange = Number(product.ctr_change ?? 0);
+        const costChange = Number(product.cost_change ?? 0);
+        const saleChange = Number(product.sale_change ?? 0);
+
+        return `
+          <tr class="ad-row hover:bg-slate-50" data-name="${name.toLowerCase()}">
+            <td class="px-5 py-4">
+              <img src="${image}" alt="${name}" class="h-11 w-11 rounded-lg object-cover" />
+            </td>
+            <td class="px-5 py-4">
+              <p class="font-semibold text-slate-900 product-name">${name}</p>
+              <p class="text-xs text-slate-500">Margen neto: ${formatPYG(netMargin)}</p>
+            </td>
+            <td class="px-5 py-4 text-slate-700">${type}</td>
+            <td class="px-5 py-4 text-slate-700">${mode}</td>
+            ${createMetricCell(views.toLocaleString('es-PY'), viewsChange)}
+            ${createMetricCell(clicks.toLocaleString('es-PY'), clicksChange)}
+            ${createMetricCell(`${ctr.toFixed(2).replace('.', ',')}%`, ctrChange)}
+            ${createMetricCell(formatPYG(productCost), costChange)}
+            ${createMetricCell(formatPYG(priceWithIva), saleChange)}
+          </tr>
+        `;
+      };
+
+      const filterAdsTable = () => {
+        const query = topSearchInput.value.trim().toLowerCase();
+        const rows = Array.from(document.querySelectorAll('.ad-row'));
+
+        rows.forEach((row) => {
+          const productName = row.dataset.name || '';
+          const matches = productName.includes(query);
+          row.classList.toggle('hidden', !matches);
+        });
+      };
+
+      async function loadDropiData() {
+        const DROPI_TOKEN = 'REEMPLAZAR_CON_TOKEN_DROPI';
+        const endpoint = 'https://api.dropi.co/products';
+
+        try {
+          const response = await fetch(endpoint, {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${DROPI_TOKEN}`,
+              'Content-Type': 'application/json'
+            }
+          });
+
+          if (!response.ok) {
+            throw new Error('Dropi API request failed');
+          }
+
+          const payload = await response.json();
+          const products = payload?.data ?? payload?.products ?? [];
+
+          if (!products.length) {
+            adsTableBody.innerHTML = `
+              <tr>
+                <td colspan="9" class="px-5 py-8 text-center text-sm text-slate-500">Sin productos disponibles</td>
+              </tr>
+            `;
+            productsCount.textContent = '0 Products';
+            return;
+          }
+
+          adsTableBody.innerHTML = products.map(buildProductRow).join('');
+          productsCount.textContent = `${products.length} Products`;
+          filterAdsTable();
+        } catch (error) {
+          renderConnectionError();
+        }
+      }
+
+      logoutButton.addEventListener('click', () => {
+        localStorage.removeItem('shopy_session');
+        window.location.replace('./index.html');
+      });
+
+      topSearchInput.addEventListener('input', filterAdsTable);
+      loadDropiData();
+    </script>
+  </body>
+</html>
