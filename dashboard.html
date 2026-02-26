@@ -13,6 +13,7 @@
     />
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <script>
       if (!localStorage.getItem('shopy_session')) {
         window.location.replace('./index.html');
@@ -111,7 +112,7 @@
 
       <main class="ml-72 w-full p-8 lg:p-10">
         <header class="mb-6 flex flex-wrap items-center justify-between gap-4">
-          <h1 id="tituloSeccion" class="text-3xl font-extrabold tracking-tight text-slate-900">Dashboard</h1>
+          <h1 id="tituloSeccion" class="text-3xl font-extrabold tracking-tight text-slate-900">Panel</h1>
 
           <label class="relative mx-auto w-full max-w-xl">
             <i data-lucide="search" class="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"></i>
@@ -241,9 +242,47 @@
           <h2 class="text-2xl font-bold text-slate-900">Pedidos</h2>
           <p class="mt-2 text-slate-600">Aquí podrás revisar y actualizar el estado de los pedidos de tus clientes.</p>
         </section>
-        <section id="seccion-productos" class="content-section hidden rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
-          <h2 class="text-2xl font-bold text-slate-900">Productos</h2>
-          <p class="mt-2 text-slate-600">Administra tu catálogo, stock y fichas de producto en esta sección.</p>
+        <section id="seccion-productos" class="content-section hidden space-y-6">
+          <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 class="text-2xl font-bold text-slate-900">Gestión de Productos</h2>
+                <p class="mt-1 text-sm text-slate-600">Escanea capturas de Dropi con OCR, completa datos y gestiona tu lista persistente.</p>
+              </div>
+              <button
+                id="openOcrModalButton"
+                type="button"
+                class="rounded-xl bg-orange-500 px-5 py-3 text-sm font-semibold text-white transition hover:bg-orange-600"
+              >
+                Añadir Producto Inteligente
+              </button>
+            </div>
+          </div>
+
+          <div class="rounded-xl border border-slate-200 bg-white shadow-sm">
+            <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+              <h3 class="text-lg font-bold text-slate-900">Productos agregados</h3>
+              <span id="managedProductsCount" class="rounded-lg bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">0 productos</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="min-w-full text-left text-sm">
+                <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                  <tr>
+                    <th class="px-5 py-3">Nombre</th>
+                    <th class="px-5 py-3">SKU</th>
+                    <th class="px-5 py-3">Precio proveedor</th>
+                    <th class="px-5 py-3">Precio sugerido</th>
+                    <th class="px-5 py-3">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="managedProductsBody" class="divide-y divide-slate-100">
+                  <tr>
+                    <td colspan="5" class="px-5 py-8 text-center text-sm text-slate-500">Aún no agregaste productos inteligentes.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </section>
         <section id="seccion-promociones" class="content-section hidden rounded-xl border border-slate-200 bg-white p-8 shadow-sm"><h2 class="text-2xl font-bold text-slate-900">Mis Promociones</h2><p class="mt-2 text-slate-600">Configura promociones, descuentos y campañas especiales.</p></section>
         <section id="seccion-finanzas" class="content-section hidden rounded-xl border border-slate-200 bg-white p-8 shadow-sm"><h2 class="text-2xl font-bold text-slate-900">Finanzas</h2><p class="mt-2 text-slate-600">Consulta ingresos, egresos y rentabilidad de la tienda.</p></section>
@@ -253,6 +292,53 @@
         <section id="seccion-servicios" class="content-section hidden rounded-xl border border-slate-200 bg-white p-8 shadow-sm"><h2 class="text-2xl font-bold text-slate-900">Servicios al Comprador</h2><p class="mt-2 text-slate-600">Administra soporte y atención al cliente.</p></section>
         <section id="seccion-tienda" class="content-section hidden rounded-xl border border-slate-200 bg-white p-8 shadow-sm"><h2 class="text-2xl font-bold text-slate-900">Tienda</h2><p class="mt-2 text-slate-600">Configuración general de la tienda y apariencia.</p></section>
         <section id="seccion-ajustes" class="content-section hidden rounded-xl border border-slate-200 bg-white p-8 shadow-sm"><h2 class="text-2xl font-bold text-slate-900">Configuración</h2><p class="mt-2 text-slate-600">Preferencias del sistema, usuarios y permisos.</p></section>
+
+
+        <div id="ocrModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/45 p-4">
+          <div class="w-full max-w-2xl rounded-xl bg-white p-6 shadow-2xl">
+            <div class="mb-4 flex items-center justify-between">
+              <h3 class="text-xl font-bold text-slate-900">Escaneo Inteligente de Producto</h3>
+              <button id="closeOcrModalButton" type="button" class="rounded-lg px-3 py-1 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700">✕</button>
+            </div>
+
+            <div class="space-y-4">
+              <label class="block rounded-xl border border-dashed border-slate-300 p-4 text-sm text-slate-600 transition hover:border-blue-400">
+                <span class="font-medium text-slate-700">Subir captura (Dropi)</span>
+                <input id="ocrImageInput" type="file" accept="image/*" class="mt-2 block w-full text-sm text-slate-600" />
+              </label>
+
+              <button id="runOcrButton" type="button" class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700">
+                Escanear imagen
+              </button>
+              <p id="ocrStatus" class="text-sm text-slate-500">Selecciona una imagen y presiona escanear.</p>
+
+              <form id="ocrProductForm" class="grid gap-4 sm:grid-cols-2">
+                <label class="space-y-1 text-sm">
+                  <span class="font-medium text-slate-700">Nombre del Producto</span>
+                  <input id="ocrName" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 outline-none transition focus:border-blue-500" />
+                </label>
+                <label class="space-y-1 text-sm">
+                  <span class="font-medium text-slate-700">SKU</span>
+                  <input id="ocrSku" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 outline-none transition focus:border-blue-500" />
+                </label>
+                <label class="space-y-1 text-sm">
+                  <span class="font-medium text-slate-700">Precio del Proveedor</span>
+                  <input id="ocrSupplierPrice" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 outline-none transition focus:border-blue-500" />
+                </label>
+                <label class="space-y-1 text-sm">
+                  <span class="font-medium text-slate-700">Precio Sugerido</span>
+                  <input id="ocrSuggestedPrice" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 outline-none transition focus:border-blue-500" />
+                </label>
+
+                <div class="sm:col-span-2 flex flex-wrap justify-end gap-2 pt-2">
+                  <button id="cancelOcrButton" type="button" class="rounded-xl bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-200">Cancelar</button>
+                  <button id="confirmOcrButton" type="submit" class="rounded-xl bg-orange-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-orange-600">Confirmar Producto</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
       </main>
     </div>
 
@@ -274,12 +360,26 @@
       const statSeen = document.getElementById('statSeen');
       const statOrders = document.getElementById('statOrders');
       const statConversion = document.getElementById('statConversion');
+      const openOcrModalButton = document.getElementById('openOcrModalButton');
+      const closeOcrModalButton = document.getElementById('closeOcrModalButton');
+      const cancelOcrButton = document.getElementById('cancelOcrButton');
+      const ocrModal = document.getElementById('ocrModal');
+      const ocrImageInput = document.getElementById('ocrImageInput');
+      const runOcrButton = document.getElementById('runOcrButton');
+      const ocrStatus = document.getElementById('ocrStatus');
+      const ocrProductForm = document.getElementById('ocrProductForm');
+      const ocrName = document.getElementById('ocrName');
+      const ocrSku = document.getElementById('ocrSku');
+      const ocrSupplierPrice = document.getElementById('ocrSupplierPrice');
+      const ocrSuggestedPrice = document.getElementById('ocrSuggestedPrice');
+      const managedProductsBody = document.getElementById('managedProductsBody');
+      const managedProductsCount = document.getElementById('managedProductsCount');
 
       let sellingChart = null;
       let dropiProducts = [];
 
       const sectionTitles = {
-        'seccion-dashboard': 'Dashboard',
+        'seccion-dashboard': 'Panel',
         'seccion-envios': 'Envíos',
         'seccion-pedidos': 'Pedidos',
         'seccion-productos': 'Productos',
@@ -305,7 +405,7 @@
           button.classList.toggle('font-medium', !isActive);
         });
 
-        tituloSeccion.textContent = sectionTitles[targetId] ?? 'Dashboard';
+        tituloSeccion.textContent = sectionTitles[targetId] ?? 'Panel';
       };
 
       const formatPercentCell = (value = 0) => {
@@ -500,9 +600,194 @@
         }
       }
 
+      const MANAGED_PRODUCTS_KEY = 'shopy_managed_products';
+
+      const parseGuaraniNumber = (value) => {
+        if (typeof value === 'number') return value;
+        const cleaned = String(value || '').replace(/[^\d,.-]/g, '').replace(/\./g, '').replace(',', '.');
+        const parsed = Number(cleaned);
+        return Number.isFinite(parsed) ? parsed : 0;
+      };
+
+      const normalizePriceInput = (value) => formatPYG(parseGuaraniNumber(value));
+
+      const getManagedProducts = () => {
+        try {
+          const raw = localStorage.getItem(MANAGED_PRODUCTS_KEY);
+          return raw ? JSON.parse(raw) : [];
+        } catch {
+          return [];
+        }
+      };
+
+      const saveManagedProducts = (products) => {
+        localStorage.setItem(MANAGED_PRODUCTS_KEY, JSON.stringify(products));
+      };
+
+      const renderManagedProducts = () => {
+        const products = getManagedProducts();
+
+        if (!products.length) {
+          managedProductsBody.innerHTML = '<tr><td colspan="5" class="px-5 py-8 text-center text-sm text-slate-500">Aún no agregaste productos inteligentes.</td></tr>';
+          managedProductsCount.textContent = '0 productos';
+          return;
+        }
+
+        managedProductsBody.innerHTML = products
+          .map(
+            (item) => `
+              <tr class="transition hover:bg-slate-50">
+                <td class="px-5 py-4 font-semibold text-slate-900">${item.name}</td>
+                <td class="px-5 py-4 text-slate-700">${item.sku}</td>
+                <td class="px-5 py-4 text-slate-700">${item.supplierPrice}</td>
+                <td class="px-5 py-4 text-slate-700">${item.suggestedPrice}</td>
+                <td class="px-5 py-4">
+                  <button data-delete-managed="${item.id}" class="rounded-lg bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-600 transition hover:bg-rose-100">Eliminar</button>
+                </td>
+              </tr>
+            `
+          )
+          .join('');
+
+        managedProductsCount.textContent = `${products.length} productos`;
+      };
+
+      const resetOcrForm = () => {
+        ocrImageInput.value = '';
+        ocrName.value = '';
+        ocrSku.value = '';
+        ocrSupplierPrice.value = '';
+        ocrSuggestedPrice.value = '';
+        ocrStatus.textContent = 'Selecciona una imagen y presiona escanear.';
+      };
+
+      const openOcrModal = () => {
+        ocrModal.classList.remove('hidden');
+        ocrModal.classList.add('flex');
+      };
+
+      const closeOcrModal = () => {
+        ocrModal.classList.add('hidden');
+        ocrModal.classList.remove('flex');
+        resetOcrForm();
+      };
+
+      const extractProductDataFromText = (rawText) => {
+        const lines = rawText
+          .split('\n')
+          .map((line) => line.trim())
+          .filter((line) => line.length > 2);
+
+        const meaningfulLine = lines.find((line) => /[a-zA-ZáéíóúÁÉÍÓÚñÑ]{3,}/.test(line) && !/precio|sku|código|codigo/i.test(line)) || 'Producto escaneado';
+
+        const skuMatch = rawText.match(/(?:SKU|C[oó]digo|Cod)\s*[:#]?\s*([A-Z0-9-]{4,})/i);
+        const sku = skuMatch?.[1] || `SKU-${Date.now().toString().slice(-6)}`;
+
+        const priceMatches = [...rawText.matchAll(/\d{1,3}(?:[.\s]\d{3})*(?:,\d{2})?/g)]
+          .map((m) => parseGuaraniNumber(m[0]))
+          .filter((n) => n > 0)
+          .sort((a, b) => b - a);
+
+        const suggested = priceMatches[0] ?? 0;
+        const supplier = priceMatches[1] ?? Math.round(suggested * 0.7);
+
+        return {
+          name: meaningfulLine,
+          sku,
+          supplierPrice: formatPYG(supplier),
+          suggestedPrice: formatPYG(suggested)
+        };
+      };
+
+      const runOcrScan = async () => {
+        const file = ocrImageInput.files?.[0];
+        if (!file) {
+          ocrStatus.textContent = 'Debes cargar una imagen para escanear.';
+          return;
+        }
+
+        if (!window.Tesseract) {
+          ocrStatus.textContent = 'No se pudo cargar Tesseract.js.';
+          return;
+        }
+
+        ocrStatus.textContent = 'Procesando imagen con OCR...';
+        runOcrButton.disabled = true;
+
+        try {
+          const result = await Tesseract.recognize(file, 'spa+eng');
+          const extracted = extractProductDataFromText(result.data.text || '');
+
+          ocrName.value = extracted.name;
+          ocrSku.value = extracted.sku;
+          ocrSupplierPrice.value = extracted.supplierPrice;
+          ocrSuggestedPrice.value = extracted.suggestedPrice;
+          ocrStatus.textContent = '¡Datos detectados! Revisa y confirma el producto.';
+        } catch (error) {
+          ocrStatus.textContent = 'No fue posible extraer datos de la imagen. Intenta con otra captura.';
+        } finally {
+          runOcrButton.disabled = false;
+        }
+      };
+
+      openOcrModalButton.addEventListener('click', openOcrModal);
+      closeOcrModalButton.addEventListener('click', closeOcrModal);
+      cancelOcrButton.addEventListener('click', closeOcrModal);
+      ocrModal.addEventListener('click', (event) => {
+        if (event.target === ocrModal) closeOcrModal();
+      });
+
+      runOcrButton.addEventListener('click', runOcrScan);
+
+      ocrProductForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const name = ocrName.value.trim();
+        const sku = ocrSku.value.trim();
+        const supplierPrice = normalizePriceInput(ocrSupplierPrice.value);
+        const suggestedPrice = normalizePriceInput(ocrSuggestedPrice.value);
+
+        if (!name || !sku) {
+          ocrStatus.textContent = 'Completa al menos Nombre y SKU para guardar el producto.';
+          return;
+        }
+
+        const products = getManagedProducts();
+        products.unshift({
+          id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+          name,
+          sku,
+          supplierPrice,
+          suggestedPrice
+        });
+
+        saveManagedProducts(products);
+        renderManagedProducts();
+        closeOcrModal();
+      });
+
+      managedProductsBody.addEventListener('click', (event) => {
+        const deleteId = event.target?.dataset?.deleteManaged;
+        if (!deleteId) return;
+
+        const products = getManagedProducts().filter((item) => item.id !== deleteId);
+        saveManagedProducts(products);
+        renderManagedProducts();
+      });
+
+      renderManagedProducts();
+
       sectionButtons.forEach((button) => {
         button.addEventListener('click', () => setActiveSection(button.dataset.sectionTarget));
       });
+
+      document.addEventListener('click', (event) => {
+        const button = event.target.closest('.sidebar-btn');
+        if (!button) return;
+        setActiveSection(button.dataset.sectionTarget);
+      });
+
+      window.__setActiveSection = setActiveSection;
 
       logoutButton.addEventListener('click', () => {
         localStorage.removeItem('shopy_session');
