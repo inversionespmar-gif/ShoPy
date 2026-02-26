@@ -304,13 +304,22 @@
 
       const formatPYG = (value) => `${Number(value).toLocaleString('es-PY')} Gs`;
 
+      const labels = ['00', '03', '06', '09', '12', '15', '18', '21', '24', '28'];
+
+      const randomSellingData = labels.map(() => {
+        const baseValue = 450000;
+        const movement = Math.floor(Math.random() * 1400000);
+        const rawValue = baseValue + movement;
+        return Math.round(rawValue / 10000) * 10000;
+      });
+
       new Chart(chartContext, {
         type: 'line',
         data: {
-          labels: ['00', '03', '06', '09', '12', '15', '18', '21', '24', '28'],
+          labels,
           datasets: [
             {
-              data: [450000, 1290000, 910000, 1320000, 1080000, 1690000, 1200000, 1460000, 980000, 760000],
+              data: randomSellingData,
               fill: true,
               backgroundColor: gradient,
               borderColor: '#2563EB',
