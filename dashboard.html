@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShoPy | Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']
+            }
+          }
+        }
+      };
+    </script>
+  </head>
+
+  <body class="bg-[#F9FAFB] font-sans text-slate-800 antialiased">
+    <div class="flex min-h-screen">
+      <aside class="fixed inset-y-0 left-0 z-30 w-72 border-r border-slate-200 bg-white">
+        <div class="flex h-full flex-col">
+          <div class="flex items-center gap-3 border-b border-slate-100 px-6 py-6">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white">
+              <i data-lucide="shopping-bag" class="h-5 w-5"></i>
+            </div>
+            <div>
+              <p class="text-lg font-bold tracking-tight text-blue-600">ShoPy</p>
+              <p class="text-xs text-slate-500">Admin Panel</p>
+            </div>
+          </div>
+
+          <nav class="flex-1 space-y-1 overflow-y-auto px-4 py-5">
+            <a href="#" class="flex items-center gap-3 rounded-xl bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-700">
+              <i data-lucide="layout-dashboard" class="h-4 w-4"></i>
+              Dashboard
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="truck" class="h-4 w-4"></i>
+              Delivery
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="clipboard-list" class="h-4 w-4"></i>
+              Order
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="package" class="h-4 w-4"></i>
+              Product
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="tag" class="h-4 w-4"></i>
+              My Promotion
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="wallet" class="h-4 w-4"></i>
+              Finance
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="bar-chart-3" class="h-4 w-4"></i>
+              Data
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="badge-check" class="h-4 w-4"></i>
+              Seller Development
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="target" class="h-4 w-4"></i>
+              Sales Program
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="life-buoy" class="h-4 w-4"></i>
+              Buyer Services
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="store" class="h-4 w-4"></i>
+              Shop
+            </a>
+            <a href="#" class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100">
+              <i data-lucide="settings" class="h-4 w-4"></i>
+              Settings
+            </a>
+          </nav>
+        </div>
+      </aside>
+
+      <main class="ml-72 w-full p-8 lg:p-10">
+        <header class="mb-6 flex flex-wrap items-center justify-between gap-4">
+          <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">Dashboard</h1>
+
+          <label class="relative mx-auto w-full max-w-xl">
+            <i data-lucide="search" class="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"></i>
+            <input
+              type="search"
+              placeholder="Search"
+              class="w-full rounded-xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-sm shadow-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+            />
+          </label>
+
+          <div class="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm">
+            <img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80"
+              alt="Yoga Wibowo"
+              class="h-10 w-10 rounded-full object-cover"
+            />
+            <div class="leading-tight">
+              <p class="text-sm font-semibold text-slate-900">Yoga Wibowo</p>
+              <p class="text-xs text-slate-500">Admin 1</p>
+            </div>
+          </div>
+        </header>
+
+        <section class="mb-6 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-5 text-white shadow-sm">
+          <div class="flex items-center justify-between gap-4">
+            <div>
+              <p class="text-sm font-medium opacity-90">The easiest way to increase sales up to 22 times.</p>
+              <p class="mt-1 text-xs opacity-80">Unleash your store potential with ShoPy insights.</p>
+            </div>
+            <button class="rounded-xl bg-white/95 px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-white">Get Started</button>
+          </div>
+        </section>
+
+        <section class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <article class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div class="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
+              <i data-lucide="truck" class="h-4 w-4"></i>
+              Delivery
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-sm">
+              <div>
+                <p class="text-2xl font-bold text-slate-900">210</p>
+                <p class="text-slate-500">Processing</p>
+              </div>
+              <div>
+                <p class="text-2xl font-bold text-slate-900">14</p>
+                <p class="text-slate-500">Processed</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div class="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
+              <i data-lucide="wallet" class="h-4 w-4"></i>
+              Payment
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-sm">
+              <div>
+                <p class="text-2xl font-bold text-slate-900">6</p>
+                <p class="text-slate-500">Not yet paid</p>
+              </div>
+              <div>
+                <p class="text-2xl font-bold text-slate-900">4</p>
+                <p class="text-slate-500">Promo</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div class="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
+              <i data-lucide="package" class="h-4 w-4"></i>
+              Product
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-sm">
+              <div>
+                <p class="text-2xl font-bold text-slate-900">0</p>
+                <p class="text-slate-500">Product block</p>
+              </div>
+              <div>
+                <p class="text-2xl font-bold text-slate-900">120</p>
+                <p class="text-slate-500">Sold out</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div class="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-700">
+              <i data-lucide="messages-square" class="h-4 w-4"></i>
+              Response
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-sm">
+              <div>
+                <p class="text-2xl font-bold text-slate-900">2</p>
+                <p class="text-slate-500">Cancelation</p>
+              </div>
+              <div>
+                <p class="text-2xl font-bold text-slate-900">4</p>
+                <p class="text-slate-500">Return</p>
+              </div>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      lucide.createIcons();
+    </script>
+  </body>
+</html>
