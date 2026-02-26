@@ -166,8 +166,8 @@
             <article class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:shadow">
               <div class="flex items-center gap-2 border-b border-slate-100 px-4 py-3 text-sm font-semibold text-slate-700"><i data-lucide="package" class="h-4 w-4"></i>Productos</div>
               <div class="grid grid-cols-2 divide-x divide-slate-100">
-                <div class="px-4 py-3"><p class="text-2xl font-bold text-slate-900">0</p><p class="text-sm text-slate-500">Bloqueados</p></div>
-                <div class="px-4 py-3"><p class="text-2xl font-bold text-slate-900">120</p><p class="text-sm text-slate-500">Agotados</p></div>
+                <div class="px-4 py-3"><p id="metricProductosAgregados" class="text-2xl font-bold text-slate-900">0</p><p class="text-sm text-slate-500">Agregados</p></div>
+                <div class="px-4 py-3"><p id="metricProductosSinStock" class="text-2xl font-bold text-slate-900">0</p><p class="text-sm text-slate-500">Sin stock</p></div>
               </div>
             </article>
             <article class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:shadow">
@@ -270,14 +270,16 @@
                   <tr>
                     <th class="px-5 py-3">Nombre</th>
                     <th class="px-5 py-3">SKU</th>
-                    <th class="px-5 py-3">Precio proveedor</th>
-                    <th class="px-5 py-3">Precio sugerido</th>
+                    <th class="px-5 py-3">Categoría</th>
+                    <th class="px-5 py-3">Stock</th>
+                    <th class="px-5 py-3">Proveedor</th>
+                    <th class="px-5 py-3">Sugerido</th>
                     <th class="px-5 py-3">Acciones</th>
                   </tr>
                 </thead>
                 <tbody id="managedProductsBody" class="divide-y divide-slate-100">
                   <tr>
-                    <td colspan="5" class="px-5 py-8 text-center text-sm text-slate-500">Aún no agregaste productos inteligentes.</td>
+                    <td colspan="7" class="px-5 py-8 text-center text-sm text-slate-500">Aún no agregaste productos inteligentes.</td>
                   </tr>
                 </tbody>
               </table>
@@ -295,9 +297,9 @@
 
 
         <div id="ocrModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/45 p-4">
-          <div class="w-full max-w-2xl rounded-xl bg-white p-6 shadow-2xl">
+          <div class="w-full max-w-3xl rounded-xl bg-white p-6 shadow-2xl">
             <div class="mb-4 flex items-center justify-between">
-              <h3 class="text-xl font-bold text-slate-900">Escaneo Inteligente de Producto</h3>
+              <h3 id="ocrModalTitle" class="text-xl font-bold text-slate-900">Escaneo Inteligente de Producto</h3>
               <button id="closeOcrModalButton" type="button" class="rounded-lg px-3 py-1 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700">✕</button>
             </div>
 
@@ -307,28 +309,27 @@
                 <input id="ocrImageInput" type="file" accept="image/*" class="mt-2 block w-full text-sm text-slate-600" />
               </label>
 
+              <label class="block rounded-xl border border-dashed border-slate-300 p-4 text-sm text-slate-600 transition hover:border-orange-400">
+                <span class="font-medium text-slate-700">Fotos del producto (máximo 3)</span>
+                <input id="manualPhotosInput" type="file" accept="image/*" multiple class="mt-2 block w-full text-sm text-slate-600" />
+                <p class="mt-1 text-xs text-slate-500">Se guardan en localStorage como Data URL.</p>
+              </label>
+
+              <div id="manualPhotosPreview" class="grid grid-cols-3 gap-3"></div>
+
               <button id="runOcrButton" type="button" class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700">
                 Escanear imagen
               </button>
               <p id="ocrStatus" class="text-sm text-slate-500">Selecciona una imagen y presiona escanear.</p>
 
               <form id="ocrProductForm" class="grid gap-4 sm:grid-cols-2">
-                <label class="space-y-1 text-sm">
-                  <span class="font-medium text-slate-700">Nombre del Producto</span>
-                  <input id="ocrName" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 outline-none transition focus:border-blue-500" />
-                </label>
-                <label class="space-y-1 text-sm">
-                  <span class="font-medium text-slate-700">SKU</span>
-                  <input id="ocrSku" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 outline-none transition focus:border-blue-500" />
-                </label>
-                <label class="space-y-1 text-sm">
-                  <span class="font-medium text-slate-700">Precio del Proveedor</span>
-                  <input id="ocrSupplierPrice" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 outline-none transition focus:border-blue-500" />
-                </label>
-                <label class="space-y-1 text-sm">
-                  <span class="font-medium text-slate-700">Precio Sugerido</span>
-                  <input id="ocrSuggestedPrice" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 outline-none transition focus:border-blue-500" />
-                </label>
+                <label class="space-y-1 text-sm"><span class="font-medium text-slate-700">Nombre del Producto</span><input id="ocrName" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 outline-none transition focus:border-blue-500" /></label>
+                <label class="space-y-1 text-sm"><span class="font-medium text-slate-700">SKU</span><input id="ocrSku" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 outline-none transition focus:border-blue-500" /></label>
+                <label class="space-y-1 text-sm"><span class="font-medium text-slate-700">Precio del Proveedor</span><input id="ocrSupplierPrice" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 outline-none transition focus:border-blue-500" /></label>
+                <label class="space-y-1 text-sm"><span class="font-medium text-slate-700">Precio Sugerido</span><input id="ocrSuggestedPrice" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 outline-none transition focus:border-blue-500" /></label>
+                <label class="space-y-1 text-sm"><span class="font-medium text-slate-700">Stock</span><input id="ocrStock" type="number" min="0" class="w-full rounded-xl border border-slate-200 px-3 py-2 outline-none transition focus:border-blue-500" /></label>
+                <label class="space-y-1 text-sm"><span class="font-medium text-slate-700">Categoría</span><input id="ocrCategory" type="text" class="w-full rounded-xl border border-slate-200 px-3 py-2 outline-none transition focus:border-blue-500" /></label>
+                <label class="space-y-1 text-sm sm:col-span-2"><span class="font-medium text-slate-700">Detalles</span><textarea id="ocrDetails" rows="3" class="w-full rounded-xl border border-slate-200 px-3 py-2 outline-none transition focus:border-blue-500" placeholder="- detalle 1"></textarea></label>
 
                 <div class="sm:col-span-2 flex flex-wrap justify-end gap-2 pt-2">
                   <button id="cancelOcrButton" type="button" class="rounded-xl bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-200">Cancelar</button>
@@ -348,6 +349,13 @@
       lucide.createIcons();
 
       const formatPYG = (value) => `${Number(value || 0).toLocaleString('es-PY')} Gs`;
+      const parseGuaraniNumber = (value) => {
+        if (typeof value === 'number') return value;
+        const cleaned = String(value || '').replace(/[^\d,.-]/g, '').replace(/\./g, '').replace(',', '.');
+        const parsed = Number(cleaned);
+        return Number.isFinite(parsed) ? parsed : 0;
+      };
+
       const topSearchInput = document.getElementById('topSearch');
       const logoutButton = document.getElementById('logoutButton');
       const adsTableBody = document.getElementById('adsTableBody');
@@ -360,11 +368,17 @@
       const statSeen = document.getElementById('statSeen');
       const statOrders = document.getElementById('statOrders');
       const statConversion = document.getElementById('statConversion');
+      const metricProductosAgregados = document.getElementById('metricProductosAgregados');
+      const metricProductosSinStock = document.getElementById('metricProductosSinStock');
+
       const openOcrModalButton = document.getElementById('openOcrModalButton');
       const closeOcrModalButton = document.getElementById('closeOcrModalButton');
       const cancelOcrButton = document.getElementById('cancelOcrButton');
       const ocrModal = document.getElementById('ocrModal');
+      const ocrModalTitle = document.getElementById('ocrModalTitle');
       const ocrImageInput = document.getElementById('ocrImageInput');
+      const manualPhotosInput = document.getElementById('manualPhotosInput');
+      const manualPhotosPreview = document.getElementById('manualPhotosPreview');
       const runOcrButton = document.getElementById('runOcrButton');
       const ocrStatus = document.getElementById('ocrStatus');
       const ocrProductForm = document.getElementById('ocrProductForm');
@@ -372,11 +386,22 @@
       const ocrSku = document.getElementById('ocrSku');
       const ocrSupplierPrice = document.getElementById('ocrSupplierPrice');
       const ocrSuggestedPrice = document.getElementById('ocrSuggestedPrice');
+      const ocrStock = document.getElementById('ocrStock');
+      const ocrCategory = document.getElementById('ocrCategory');
+      const ocrDetails = document.getElementById('ocrDetails');
       const managedProductsBody = document.getElementById('managedProductsBody');
       const managedProductsCount = document.getElementById('managedProductsCount');
 
+      const MANAGED_PRODUCTS_KEY = 'shopy_managed_products';
+      const DROPI_TOKEN = 'REEMPLAZAR_CON_TOKEN_DROPI';
+      const DROPI_ENDPOINT = 'https://api.dropi.co/products';
+      const ENVIO_GS = 25000;
+
       let sellingChart = null;
       let dropiProducts = [];
+      let managedProducts = [];
+      let editingProductId = null;
+      let stagedPhotos = [];
 
       const sectionTitles = {
         'seccion-dashboard': 'Panel',
@@ -395,221 +420,15 @@
 
       const setActiveSection = (targetId) => {
         sections.forEach((section) => section.classList.toggle('hidden', section.id !== targetId));
-
         sectionButtons.forEach((button) => {
-          const isActive = button.dataset.sectionTarget === targetId;
-          button.classList.toggle('bg-blue-50', isActive);
-          button.classList.toggle('text-blue-700', isActive);
-          button.classList.toggle('font-semibold', isActive);
-          button.classList.toggle('text-slate-600', !isActive);
-          button.classList.toggle('font-medium', !isActive);
+          const active = button.dataset.sectionTarget === targetId;
+          button.classList.toggle('bg-blue-50', active);
+          button.classList.toggle('text-blue-700', active);
+          button.classList.toggle('font-semibold', active);
+          button.classList.toggle('text-slate-600', !active);
         });
-
         tituloSeccion.textContent = sectionTitles[targetId] ?? 'Panel';
       };
-
-      const formatPercentCell = (value = 0) => {
-        const num = Number(value || 0);
-        const css = num >= 0 ? 'text-emerald-500' : 'text-rose-500';
-        const sign = num >= 0 ? '+' : '';
-        return `<p class="text-xs font-medium ${css}">${sign}${num.toFixed(2)}%</p>`;
-      };
-
-      const renderTableError = () => {
-        adsTableBody.innerHTML = `
-          <tr>
-            <td colspan="9" class="px-5 py-8 text-center text-sm text-rose-500">
-              <div class="mx-auto max-w-md rounded-xl border border-rose-200 bg-rose-50 p-4">
-                <p class="font-semibold">Error de conexión</p>
-                <p class="mt-1 text-xs text-rose-700">No fue posible obtener productos desde Dropi en este momento.</p>
-              </div>
-            </td>
-          </tr>
-        `;
-        productsCount.textContent = '0 productos';
-      };
-
-      const calculateProductMetrics = (product) => {
-        const shippingCost = 25000;
-        const salePrice = Number(product.sale_price ?? product.price ?? 0);
-        const productCost = Number(product.cost_price ?? product.cost ?? 0);
-        const saleWithIva = salePrice / 1.1;
-        const netMargin = saleWithIva - productCost - shippingCost;
-
-        const views = Number(product.views ?? product.impressions ?? 0);
-        const clicks = Number(product.clicks ?? 0);
-        const ctr = views > 0 ? (clicks / views) * 100 : 0;
-
-        return { salePrice, productCost, saleWithIva, netMargin, views, clicks, ctr };
-      };
-
-      const renderAdsTable = (products) => {
-        if (!products.length) {
-          adsTableBody.innerHTML = '<tr><td colspan="9" class="px-5 py-8 text-center text-sm text-slate-500">No hay productos disponibles</td></tr>';
-          productsCount.textContent = '0 productos';
-          return;
-        }
-
-        adsTableBody.innerHTML = products
-          .map((product) => {
-            const { productCost, saleWithIva, netMargin, views, clicks, ctr } = calculateProductMetrics(product);
-            const name = product.name ?? 'Producto sin nombre';
-            const img = product.image ?? product.image_url ?? 'https://placehold.co/80x80/F1F5F9/64748B?text=ShoPy';
-            const type = product.type ?? product.channel ?? 'Producto Dropi';
-            const mode = product.mode ?? 'Sin límite';
-
-            return `
-              <tr class="ad-row transition hover:bg-slate-50" data-name="${name.toLowerCase()}">
-                <td class="px-5 py-4"><img src="${img}" alt="${name}" class="h-11 w-11 rounded-lg object-cover" /></td>
-                <td class="px-5 py-4"><p class="font-semibold text-slate-900">${name}</p><p class="text-xs text-slate-500">Margen neto: ${formatPYG(netMargin)}</p></td>
-                <td class="px-5 py-4 text-slate-700">${type}</td>
-                <td class="px-5 py-4 text-slate-700">${mode}</td>
-                <td class="px-5 py-4"><p class="font-semibold text-slate-900">${views.toLocaleString('es-PY')}</p>${formatPercentCell(product.views_change)}</td>
-                <td class="px-5 py-4"><p class="font-semibold text-slate-900">${clicks.toLocaleString('es-PY')}</p>${formatPercentCell(product.clicks_change)}</td>
-                <td class="px-5 py-4"><p class="font-semibold text-slate-900">${ctr.toFixed(2).replace('.', ',')}%</p>${formatPercentCell(product.ctr_change)}</td>
-                <td class="px-5 py-4"><p class="font-semibold text-slate-900">${formatPYG(productCost)}</p>${formatPercentCell(product.cost_change)}</td>
-                <td class="px-5 py-4"><p class="font-semibold text-slate-900">${formatPYG(saleWithIva)}</p>${formatPercentCell(product.sale_change)}</td>
-              </tr>
-            `;
-          })
-          .join('');
-
-        productsCount.textContent = `${products.length} productos`;
-      };
-
-      const filterProductsBySearch = () => {
-        const query = topSearchInput.value.trim().toLowerCase();
-        document.querySelectorAll('.ad-row').forEach((row) => {
-          const name = row.dataset.name || '';
-          row.classList.toggle('hidden', !name.includes(query));
-        });
-      };
-
-      const updateChartWithProducts = (products) => {
-        const chartCanvas = document.getElementById('sellingChart');
-        const chartContext = chartCanvas.getContext('2d');
-        const gradient = chartContext.createLinearGradient(0, 0, 0, 260);
-        gradient.addColorStop(0, 'rgba(37, 99, 235, 0.35)');
-        gradient.addColorStop(1, 'rgba(37, 99, 235, 0.02)');
-
-        const labels = products.slice(0, 10).map((p, index) => (p.name ? p.name.slice(0, 8) : `P${index + 1}`));
-        const salesData = products.slice(0, 10).map((p) => Number(p.sale_price ?? p.price ?? 0));
-
-        if (sellingChart) {
-          sellingChart.destroy();
-        }
-
-        sellingChart = new Chart(chartContext, {
-          type: 'line',
-          data: {
-            labels: labels.length ? labels : ['Sin datos'],
-            datasets: [
-              {
-                data: salesData.length ? salesData : [0],
-                fill: true,
-                backgroundColor: gradient,
-                borderColor: '#2563EB',
-                borderWidth: 2,
-                tension: 0.35,
-                pointRadius: 0,
-                pointHoverRadius: 4,
-                pointBackgroundColor: '#2563EB'
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false },
-              tooltip: {
-                backgroundColor: '#0F172A',
-                titleColor: '#fff',
-                bodyColor: '#fff',
-                displayColors: false,
-                callbacks: {
-                  label(context) {
-                    return `Ventas: ${formatPYG(context.raw)}`;
-                  }
-                }
-              }
-            },
-            scales: {
-              x: {
-                grid: { color: 'rgba(148, 163, 184, 0.18)' },
-                ticks: { color: '#64748B' }
-              },
-              y: {
-                beginAtZero: true,
-                grid: { color: 'rgba(148, 163, 184, 0.18)' },
-                ticks: {
-                  color: '#64748B',
-                  callback(value) {
-                    return formatPYG(value);
-                  }
-                }
-              }
-            }
-          }
-        });
-      };
-
-      const updateDashboardStats = (products) => {
-        const totalSales = products.reduce((acc, p) => acc + Number(p.sale_price ?? p.price ?? 0), 0);
-        const totalViews = products.reduce((acc, p) => acc + Number(p.views ?? p.impressions ?? 0), 0);
-        const totalClicks = products.reduce((acc, p) => acc + Number(p.clicks ?? 0), 0);
-        const totalOrders = products.filter((p) => Number(p.sale_price ?? p.price ?? 0) > 0).length;
-        const conversion = totalViews > 0 ? (totalClicks / totalViews) * 100 : 0;
-
-        totalVentas.textContent = formatPYG(totalSales);
-        statVisitors.textContent = totalViews.toLocaleString('es-PY');
-        statSeen.textContent = Math.round(totalViews * 0.75).toLocaleString('es-PY');
-        statOrders.textContent = totalOrders.toLocaleString('es-PY');
-        statConversion.textContent = `${conversion.toFixed(2).replace('.', ',')}%`;
-      };
-
-      async function fetchDropiData() {
-        const DROPI_TOKEN = 'REEMPLAZAR_CON_TOKEN_DROPI';
-        const endpoint = 'https://api.dropi.co/products';
-
-        try {
-          const response = await fetch(endpoint, {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${DROPI_TOKEN}`,
-              'Content-Type': 'application/json'
-            }
-          });
-
-          if (!response.ok) {
-            throw new Error('No se pudo consultar la API de Dropi');
-          }
-
-          const payload = await response.json();
-          const products = payload?.data ?? payload?.products ?? [];
-          dropiProducts = Array.isArray(products) ? products : [];
-
-          renderAdsTable(dropiProducts);
-          updateChartWithProducts(dropiProducts);
-          updateDashboardStats(dropiProducts);
-          filterProductsBySearch();
-        } catch (error) {
-          renderTableError();
-          updateChartWithProducts([]);
-          updateDashboardStats([]);
-        }
-      }
-
-      const MANAGED_PRODUCTS_KEY = 'shopy_managed_products';
-
-      const parseGuaraniNumber = (value) => {
-        if (typeof value === 'number') return value;
-        const cleaned = String(value || '').replace(/[^\d,.-]/g, '').replace(/\./g, '').replace(',', '.');
-        const parsed = Number(cleaned);
-        return Number.isFinite(parsed) ? parsed : 0;
-      };
-
-      const normalizePriceInput = (value) => formatPYG(parseGuaraniNumber(value));
 
       const getManagedProducts = () => {
         try {
@@ -624,46 +443,55 @@
         localStorage.setItem(MANAGED_PRODUCTS_KEY, JSON.stringify(products));
       };
 
-      const renderManagedProducts = () => {
-        const products = getManagedProducts();
+      const toDataURL = (file) => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
 
-        if (!products.length) {
-          managedProductsBody.innerHTML = '<tr><td colspan="5" class="px-5 py-8 text-center text-sm text-slate-500">Aún no agregaste productos inteligentes.</td></tr>';
-          managedProductsCount.textContent = '0 productos';
-          return;
-        }
-
-        managedProductsBody.innerHTML = products
-          .map(
-            (item) => `
-              <tr class="transition hover:bg-slate-50">
-                <td class="px-5 py-4 font-semibold text-slate-900">${item.name}</td>
-                <td class="px-5 py-4 text-slate-700">${item.sku}</td>
-                <td class="px-5 py-4 text-slate-700">${item.supplierPrice}</td>
-                <td class="px-5 py-4 text-slate-700">${item.suggestedPrice}</td>
-                <td class="px-5 py-4">
-                  <button data-delete-managed="${item.id}" class="rounded-lg bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-600 transition hover:bg-rose-100">Eliminar</button>
-                </td>
-              </tr>
-            `
-          )
+      const renderPhotoPreview = () => {
+        manualPhotosPreview.innerHTML = stagedPhotos
+          .map((src) => `<img src="${src}" class="h-20 w-full rounded-lg object-cover border border-slate-200" alt="foto producto" />`)
           .join('');
-
-        managedProductsCount.textContent = `${products.length} productos`;
       };
 
+      const normalizePriceInput = (value) => formatPYG(parseGuaraniNumber(value));
+
       const resetOcrForm = () => {
+        editingProductId = null;
+        ocrModalTitle.textContent = 'Escaneo Inteligente de Producto';
         ocrImageInput.value = '';
+        manualPhotosInput.value = '';
         ocrName.value = '';
         ocrSku.value = '';
         ocrSupplierPrice.value = '';
         ocrSuggestedPrice.value = '';
+        ocrStock.value = '0';
+        ocrCategory.value = '';
+        ocrDetails.value = '';
+        stagedPhotos = [];
+        renderPhotoPreview();
         ocrStatus.textContent = 'Selecciona una imagen y presiona escanear.';
       };
 
-      const openOcrModal = () => {
+      const openOcrModal = (product = null) => {
         ocrModal.classList.remove('hidden');
         ocrModal.classList.add('flex');
+        if (product) {
+          editingProductId = product.id;
+          ocrModalTitle.textContent = 'Editar Producto';
+          ocrName.value = product.name;
+          ocrSku.value = product.sku;
+          ocrSupplierPrice.value = product.supplierPrice;
+          ocrSuggestedPrice.value = product.suggestedPrice;
+          ocrStock.value = String(product.stock || 0);
+          ocrCategory.value = product.category || '';
+          ocrDetails.value = (product.details || []).join('\n');
+          stagedPhotos = (product.photos || []).slice(0, 3);
+          renderPhotoPreview();
+          ocrStatus.textContent = 'Edita los campos y confirma cambios.';
+        }
       };
 
       const closeOcrModal = () => {
@@ -672,110 +500,265 @@
         resetOcrForm();
       };
 
+      const extractKeywordValue = (text, label) => {
+        const regex = new RegExp(`${label}\\s*[:\\-]?\\s*([\\d.]+(?:,\\d{1,2})?)`, 'i');
+        return regex.exec(text)?.[1] || '';
+      };
+      const extractStock = (text) => {
+        const match = /Stock\s*[:\-]?\s*(\d+)/i.exec(text);
+        return match ? Number(match[1]) : 0;
+      };
+      const extractCategory = (lines) => {
+        const idx = lines.findIndex((l) => /precio del proveedor|precio sugerido|stock/i.test(l));
+        if (idx > 0) return lines[idx - 1];
+        return lines.find((l) => /tecnolog[ií]a|hogar|moda|salud|belleza/i.test(l)) || 'Sin categoría';
+      };
+      const extractDetails = (lines) => {
+        const detailsIndex = lines.findIndex((l) => /^detalles?/i.test(l));
+        if (detailsIndex === -1) return [];
+        return lines.slice(detailsIndex + 1).filter((l) => l.length > 2).map((l) => l.replace(/^[-•]\s*/, ''));
+      };
+
       const extractProductDataFromText = (rawText) => {
-        const lines = rawText
-          .split('\n')
-          .map((line) => line.trim())
-          .filter((line) => line.length > 2);
-
-        const meaningfulLine = lines.find((line) => /[a-zA-ZáéíóúÁÉÍÓÚñÑ]{3,}/.test(line) && !/precio|sku|código|codigo/i.test(line)) || 'Producto escaneado';
-
-        const skuMatch = rawText.match(/(?:SKU|C[oó]digo|Cod)\s*[:#]?\s*([A-Z0-9-]{4,})/i);
-        const sku = skuMatch?.[1] || `SKU-${Date.now().toString().slice(-6)}`;
-
-        const priceMatches = [...rawText.matchAll(/\d{1,3}(?:[.\s]\d{3})*(?:,\d{2})?/g)]
-          .map((m) => parseGuaraniNumber(m[0]))
-          .filter((n) => n > 0)
-          .sort((a, b) => b - a);
-
-        const suggested = priceMatches[0] ?? 0;
-        const supplier = priceMatches[1] ?? Math.round(suggested * 0.7);
-
+        const lines = rawText.split('\n').map((l) => l.trim()).filter(Boolean);
+        const title = lines.find((l) => /[A-Za-zÁÉÍÓÚÑáéíóú]{4,}/.test(l) && !/precio|stock|sku|detalles/i.test(l)) || 'Producto escaneado';
+        const supplierRaw = extractKeywordValue(rawText, 'Precio del proveedor');
+        const suggestedRaw = extractKeywordValue(rawText, 'Precio sugerido');
+        const stock = extractStock(rawText);
+        const category = extractCategory(lines);
+        const details = extractDetails(lines);
+        const skuMatch = rawText.match(/(?:SKU|Código|Cod)\s*[:#]?\s*([A-Z0-9-]{3,})/i);
         return {
-          name: meaningfulLine,
-          sku,
-          supplierPrice: formatPYG(supplier),
-          suggestedPrice: formatPYG(suggested)
+          name: title,
+          sku: skuMatch?.[1] || `SKU-${Date.now().toString().slice(-6)}`,
+          supplierPrice: formatPYG(parseGuaraniNumber(supplierRaw)),
+          suggestedPrice: formatPYG(parseGuaraniNumber(suggestedRaw)),
+          stock,
+          category,
+          details
         };
       };
 
       const runOcrScan = async () => {
         const file = ocrImageInput.files?.[0];
-        if (!file) {
-          ocrStatus.textContent = 'Debes cargar una imagen para escanear.';
-          return;
-        }
-
-        if (!window.Tesseract) {
-          ocrStatus.textContent = 'No se pudo cargar Tesseract.js.';
-          return;
-        }
+        if (!file) return (ocrStatus.textContent = 'Debes cargar una imagen para escanear.');
+        if (!window.Tesseract) return (ocrStatus.textContent = 'No se pudo cargar Tesseract.js.');
 
         ocrStatus.textContent = 'Procesando imagen con OCR...';
         runOcrButton.disabled = true;
-
         try {
           const result = await Tesseract.recognize(file, 'spa+eng');
           const extracted = extractProductDataFromText(result.data.text || '');
-
           ocrName.value = extracted.name;
           ocrSku.value = extracted.sku;
           ocrSupplierPrice.value = extracted.supplierPrice;
           ocrSuggestedPrice.value = extracted.suggestedPrice;
-          ocrStatus.textContent = '¡Datos detectados! Revisa y confirma el producto.';
-        } catch (error) {
+          ocrStock.value = String(extracted.stock || 0);
+          ocrCategory.value = extracted.category;
+          ocrDetails.value = extracted.details.join('\n');
+          ocrStatus.textContent = 'Datos extraídos. Revisa y confirma.';
+        } catch {
           ocrStatus.textContent = 'No fue posible extraer datos de la imagen. Intenta con otra captura.';
         } finally {
           runOcrButton.disabled = false;
         }
       };
 
-      openOcrModalButton.addEventListener('click', openOcrModal);
+      const renderManagedProducts = () => {
+        managedProducts = getManagedProducts();
+        if (!managedProducts.length) {
+          managedProductsBody.innerHTML = '<tr><td colspan="7" class="px-5 py-8 text-center text-sm text-slate-500">Aún no agregaste productos inteligentes.</td></tr>';
+          managedProductsCount.textContent = '0 productos';
+          return;
+        }
+        managedProductsBody.innerHTML = managedProducts.map((item) => `
+          <tr class="transition hover:bg-slate-50">
+            <td class="px-5 py-4 font-semibold text-slate-900">${item.name}</td>
+            <td class="px-5 py-4 text-slate-700">${item.sku}</td>
+            <td class="px-5 py-4 text-slate-700">${item.category || 'Sin categoría'}</td>
+            <td class="px-5 py-4 text-slate-700">${Number(item.stock || 0)}</td>
+            <td class="px-5 py-4 text-slate-700">${item.supplierPrice}</td>
+            <td class="px-5 py-4 text-slate-700">${item.suggestedPrice}</td>
+            <td class="px-5 py-4"><div class="flex gap-2"><button data-edit-managed="${item.id}" class="rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700 transition hover:bg-blue-100">Editar</button><button data-delete-managed="${item.id}" class="rounded-lg bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-600 transition hover:bg-rose-100">Eliminar</button></div></td>
+          </tr>
+        `).join('');
+        managedProductsCount.textContent = `${managedProducts.length} productos`;
+      };
+
+      const mapManagedToDashboardRows = () => managedProducts.map((item) => ({
+        name: item.name,
+        image: item.photos?.[0] || 'https://placehold.co/80x80/F1F5F9/64748B?text=ShoPy',
+        type: item.category || 'Producto propio',
+        mode: 'Gestionado',
+        views: 0,
+        clicks: 0,
+        cost_price: parseGuaraniNumber(item.supplierPrice),
+        sale_price: parseGuaraniNumber(item.suggestedPrice),
+        stock: Number(item.stock || 0),
+        views_change: 0,
+        clicks_change: 0,
+        ctr_change: 0,
+        cost_change: 0,
+        sale_change: 0
+      }));
+
+      const formatPercentCell = (value = 0) => {
+        const n = Number(value || 0);
+        const color = n >= 0 ? 'text-emerald-500' : 'text-rose-500';
+        const sign = n >= 0 ? '+' : '';
+        return `<p class="text-xs font-medium ${color}">${sign}${n.toFixed(2)}%</p>`;
+      };
+
+      const renderTableError = () => {
+        adsTableBody.innerHTML = `<tr><td colspan="9" class="px-5 py-8 text-center text-sm text-rose-500"><div class="mx-auto max-w-md rounded-xl border border-rose-200 bg-rose-50 p-4"><p class="font-semibold">Error de conexión</p><p class="mt-1 text-xs text-rose-700">No fue posible obtener productos desde Dropi en este momento.</p></div></td></tr>`;
+        productsCount.textContent = '0 productos';
+      };
+
+      const calculateRowMetrics = (row) => {
+        const precioProveedor = Number(row.cost_price ?? row.cost ?? 0);
+        const precioSugerido = Number(row.sale_price ?? row.price ?? 0);
+        const precioConIva = precioSugerido / 1.1;
+        const margenNeto = precioConIva - precioProveedor - ENVIO_GS;
+        const views = Number(row.views ?? row.impressions ?? 0);
+        const clicks = Number(row.clicks ?? 0);
+        const ctr = views > 0 ? (clicks / views) * 100 : 0;
+        return { precioProveedor, precioConIva, margenNeto, views, clicks, ctr };
+      };
+
+      const renderAdsTable = (rows) => {
+        if (!rows.length) {
+          adsTableBody.innerHTML = '<tr><td colspan="9" class="px-5 py-8 text-center text-sm text-slate-500">No hay productos disponibles</td></tr>';
+          productsCount.textContent = '0 productos';
+          return;
+        }
+        adsTableBody.innerHTML = rows.map((row) => {
+          const { precioProveedor, precioConIva, margenNeto, views, clicks, ctr } = calculateRowMetrics(row);
+          const name = row.name || 'Producto sin nombre';
+          const image = row.image || row.image_url || 'https://placehold.co/80x80/F1F5F9/64748B?text=ShoPy';
+          const type = row.type || row.channel || 'Producto';
+          const mode = row.mode || 'Sin límite';
+          return `<tr class="ad-row transition hover:bg-slate-50" data-name="${name.toLowerCase()}"><td class="px-5 py-4"><img src="${image}" alt="${name}" class="h-11 w-11 rounded-lg object-cover" /></td><td class="px-5 py-4"><p class="font-semibold text-slate-900">${name}</p><p class="text-xs text-slate-500">Margen neto: ${formatPYG(margenNeto)}</p></td><td class="px-5 py-4 text-slate-700">${type}</td><td class="px-5 py-4 text-slate-700">${mode}</td><td class="px-5 py-4"><p class="font-semibold text-slate-900">${views.toLocaleString('es-PY')}</p>${formatPercentCell(row.views_change)}</td><td class="px-5 py-4"><p class="font-semibold text-slate-900">${clicks.toLocaleString('es-PY')}</p>${formatPercentCell(row.clicks_change)}</td><td class="px-5 py-4"><p class="font-semibold text-slate-900">${ctr.toFixed(2).replace('.', ',')}%</p>${formatPercentCell(row.ctr_change)}</td><td class="px-5 py-4"><p class="font-semibold text-slate-900">${formatPYG(precioProveedor)}</p>${formatPercentCell(row.cost_change)}</td><td class="px-5 py-4"><p class="font-semibold text-slate-900">${formatPYG(precioConIva)}</p>${formatPercentCell(row.sale_change)}</td></tr>`;
+        }).join('');
+        productsCount.textContent = `${rows.length} productos`;
+      };
+
+      const filterProductsBySearch = () => {
+        const query = topSearchInput.value.trim().toLowerCase();
+        document.querySelectorAll('.ad-row').forEach((row) => {
+          const name = row.dataset.name || '';
+          row.classList.toggle('hidden', !name.includes(query));
+        });
+      };
+
+      const updateChart = (rows) => {
+        const canvas = document.getElementById('sellingChart');
+        const ctx = canvas.getContext('2d');
+        const gradient = ctx.createLinearGradient(0, 0, 0, 260);
+        gradient.addColorStop(0, 'rgba(37, 99, 235, 0.35)');
+        gradient.addColorStop(1, 'rgba(37, 99, 235, 0.02)');
+        const labels = rows.slice(0, 10).map((p, i) => (p.name ? p.name.slice(0, 8) : `P${i + 1}`));
+        const values = rows.slice(0, 10).map((p) => Number(p.sale_price ?? p.price ?? 0));
+        if (sellingChart) sellingChart.destroy();
+        sellingChart = new Chart(ctx, { type: 'line', data: { labels: labels.length ? labels : ['Sin datos'], datasets: [{ data: values.length ? values : [0], fill: true, backgroundColor: gradient, borderColor: '#2563EB', borderWidth: 2, tension: 0.35, pointRadius: 0, pointHoverRadius: 4, pointBackgroundColor: '#2563EB' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0F172A', titleColor: '#fff', bodyColor: '#fff', displayColors: false, callbacks: { label: (c) => `Ventas: ${formatPYG(c.raw)}` } } }, scales: { x: { grid: { color: 'rgba(148, 163, 184, 0.18)' }, ticks: { color: '#64748B' } }, y: { beginAtZero: true, grid: { color: 'rgba(148, 163, 184, 0.18)' }, ticks: { color: '#64748B', callback: (v) => formatPYG(v) } } } } });
+      };
+
+      const updateStats = (rows) => {
+        const totalSales = rows.reduce((a, r) => a + Number(r.sale_price ?? r.price ?? 0), 0);
+        const totalViews = rows.reduce((a, r) => a + Number(r.views ?? r.impressions ?? 0), 0);
+        const totalClicks = rows.reduce((a, r) => a + Number(r.clicks ?? 0), 0);
+        const totalOrders = rows.length;
+        const conversion = totalViews > 0 ? (totalClicks / totalViews) * 100 : 0;
+        totalVentas.textContent = formatPYG(totalSales);
+        statVisitors.textContent = totalViews.toLocaleString('es-PY');
+        statSeen.textContent = Math.round(totalViews * 0.75).toLocaleString('es-PY');
+        statOrders.textContent = totalOrders.toLocaleString('es-PY');
+        statConversion.textContent = `${conversion.toFixed(2).replace('.', ',')}%`;
+        metricProductosAgregados.textContent = managedProducts.length.toLocaleString('es-PY');
+        metricProductosSinStock.textContent = managedProducts.filter((p) => Number(p.stock || 0) <= 0).length.toLocaleString('es-PY');
+      };
+
+      const syncDashboardData = () => {
+        const unified = [...mapManagedToDashboardRows(), ...dropiProducts];
+        renderAdsTable(unified);
+        updateChart(unified);
+        updateStats(unified);
+        filterProductsBySearch();
+      };
+
+      async function fetchDropiData() {
+        try {
+          const response = await fetch(DROPI_ENDPOINT, { method: 'GET', headers: { Authorization: `Bearer ${DROPI_TOKEN}`, 'Content-Type': 'application/json' } });
+          if (!response.ok) throw new Error('API Dropi no disponible');
+          const payload = await response.json();
+          const products = payload?.data ?? payload?.products ?? [];
+          dropiProducts = Array.isArray(products) ? products : [];
+          syncDashboardData();
+        } catch {
+          dropiProducts = [];
+          renderTableError();
+          updateChart([]);
+          updateStats([]);
+        }
+      }
+
+      openOcrModalButton.addEventListener('click', () => openOcrModal());
       closeOcrModalButton.addEventListener('click', closeOcrModal);
       cancelOcrButton.addEventListener('click', closeOcrModal);
-      ocrModal.addEventListener('click', (event) => {
-        if (event.target === ocrModal) closeOcrModal();
+      ocrModal.addEventListener('click', (e) => {
+        if (e.target === ocrModal) closeOcrModal();
       });
-
       runOcrButton.addEventListener('click', runOcrScan);
+
+      manualPhotosInput.addEventListener('change', async () => {
+        const files = Array.from(manualPhotosInput.files || []).slice(0, 3);
+        stagedPhotos = await Promise.all(files.map(toDataURL));
+        renderPhotoPreview();
+      });
 
       ocrProductForm.addEventListener('submit', (event) => {
         event.preventDefault();
-
         const name = ocrName.value.trim();
         const sku = ocrSku.value.trim();
-        const supplierPrice = normalizePriceInput(ocrSupplierPrice.value);
-        const suggestedPrice = normalizePriceInput(ocrSuggestedPrice.value);
-
         if (!name || !sku) {
           ocrStatus.textContent = 'Completa al menos Nombre y SKU para guardar el producto.';
           return;
         }
-
         const products = getManagedProducts();
-        products.unshift({
-          id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+        const payload = {
+          id: editingProductId || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now())),
           name,
           sku,
-          supplierPrice,
-          suggestedPrice
-        });
-
+          supplierPrice: normalizePriceInput(ocrSupplierPrice.value),
+          suggestedPrice: normalizePriceInput(ocrSuggestedPrice.value),
+          stock: Number(ocrStock.value || 0),
+          category: ocrCategory.value.trim() || 'Sin categoría',
+          details: ocrDetails.value.split('\n').map((x) => x.trim()).filter(Boolean),
+          photos: stagedPhotos.slice(0, 3)
+        };
+        const idx = products.findIndex((p) => p.id === payload.id);
+        if (idx >= 0) products[idx] = payload;
+        else products.unshift(payload);
         saveManagedProducts(products);
         renderManagedProducts();
+        syncDashboardData();
         closeOcrModal();
       });
 
       managedProductsBody.addEventListener('click', (event) => {
         const deleteId = event.target?.dataset?.deleteManaged;
-        if (!deleteId) return;
-
-        const products = getManagedProducts().filter((item) => item.id !== deleteId);
-        saveManagedProducts(products);
-        renderManagedProducts();
+        const editId = event.target?.dataset?.editManaged;
+        if (deleteId) {
+          const products = getManagedProducts().filter((item) => item.id !== deleteId);
+          saveManagedProducts(products);
+          renderManagedProducts();
+          syncDashboardData();
+          return;
+        }
+        if (editId) {
+          const product = getManagedProducts().find((item) => item.id === editId);
+          if (product) openOcrModal(product);
+        }
       });
-
-      renderManagedProducts();
 
       sectionButtons.forEach((button) => {
         button.addEventListener('click', () => setActiveSection(button.dataset.sectionTarget));
@@ -787,8 +770,6 @@
         setActiveSection(button.dataset.sectionTarget);
       });
 
-      window.__setActiveSection = setActiveSection;
-
       logoutButton.addEventListener('click', () => {
         localStorage.removeItem('shopy_session');
         window.location.replace('./index.html');
@@ -796,8 +777,11 @@
 
       topSearchInput.addEventListener('input', filterProductsBySearch);
 
+      resetOcrForm();
+      renderManagedProducts();
       setActiveSection('seccion-dashboard');
       fetchDropiData();
     </script>
+
   </body>
 </html>
