@@ -37,7 +37,7 @@
             <input
               id="email"
               type="email"
-              placeholder="admin@shopy.com"
+              placeholder="admin@shopy.com.py"
               class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 shadow-sm transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100"
             />
           </label>
@@ -69,11 +69,17 @@
       const emailInput = document.getElementById('email');
       const passwordInput = document.getElementById('password');
       const errorMessage = document.getElementById('errorMessage');
+      const AUTH_EMAIL = 'admin@shopy.com.py';
+      const AUTH_PASSWORD = 'shopy2026';
+
+      if (localStorage.getItem('shopy_session')) {
+        window.location.href = './dashboard.html';
+      }
 
       loginForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
-        const email = emailInput.value.trim();
+        const email = emailInput.value.trim().toLowerCase();
         const password = passwordInput.value.trim();
 
         if (!email || !password) {
@@ -82,6 +88,14 @@
           return;
         }
 
+        if (email !== AUTH_EMAIL || password !== AUTH_PASSWORD) {
+          errorMessage.textContent = 'Credenciales inválidas. Verifica tus datos.';
+          errorMessage.classList.remove('hidden');
+          return;
+        }
+
+        const sessionToken = `shopy_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+        localStorage.setItem('shopy_session', sessionToken);
         errorMessage.classList.add('hidden');
         window.location.href = './dashboard.html';
       });

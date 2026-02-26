@@ -14,6 +14,11 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+      if (!localStorage.getItem('shopy_session')) {
+        window.location.replace('./index.html');
+      }
+    </script>
+    <script>
       tailwind.config = {
         theme: {
           extend: {
@@ -90,6 +95,17 @@
               Settings
             </a>
           </nav>
+
+          <div class="border-t border-slate-100 p-4">
+            <button
+              id="logoutButton"
+              type="button"
+              class="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-200"
+            >
+              <i data-lucide="log-out" class="h-4 w-4"></i>
+              Cerrar Sesión
+            </button>
+          </div>
         </div>
       </aside>
 
@@ -343,6 +359,7 @@
       });
 
       const topSearchInput = document.getElementById('topSearch');
+      const logoutButton = document.getElementById('logoutButton');
       const adsTableBody = document.getElementById('adsTableBody');
       const productsCount = document.getElementById('productsCount');
 
@@ -458,6 +475,11 @@
           renderConnectionError();
         }
       }
+
+      logoutButton.addEventListener('click', () => {
+        localStorage.removeItem('shopy_session');
+        window.location.replace('./index.html');
+      });
 
       topSearchInput.addEventListener('input', filterAdsTable);
       loadDropiData();
