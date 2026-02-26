@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShoPy | Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']
+            }
+          }
+        }
+      };
+    </script>
+  </head>
+  <body class="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased">
+    <main class="flex min-h-screen items-center justify-center p-4">
+      <section class="w-full max-w-md rounded-2xl bg-white p-8 shadow-[0_20px_45px_-20px_rgba(15,23,42,0.2)] sm:p-10">
+        <header class="mb-8 text-center">
+          <p class="text-3xl font-extrabold tracking-tight text-blue-600">ShoPy</p>
+          <p class="mt-2 text-sm text-slate-500">Accede a tu panel para gestionar tu tienda.</p>
+        </header>
+
+        <form id="loginForm" class="space-y-5" novalidate>
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Email</span>
+            <input
+              id="email"
+              type="email"
+              placeholder="admin@shopy.com.py"
+              class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 shadow-sm transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100"
+            />
+          </label>
+
+          <label class="block space-y-2">
+            <span class="text-sm font-medium text-slate-700">Contraseña</span>
+            <input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 shadow-sm transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100"
+            />
+          </label>
+
+          <p id="errorMessage" class="hidden text-sm font-medium text-rose-500"></p>
+
+          <button
+            type="submit"
+            class="w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200"
+          >
+            Entrar
+          </button>
+        </form>
+      </section>
+    </main>
+
+    <script>
+      const loginForm = document.getElementById('loginForm');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const errorMessage = document.getElementById('errorMessage');
+      const AUTH_EMAIL = 'admin@shopy.com.py';
+      const AUTH_PASSWORD = 'shopy2026';
+
+      if (localStorage.getItem('shopy_session')) {
+        window.location.href = './dashboard.html';
+      }
+
+      loginForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const email = emailInput.value.trim().toLowerCase();
+        const password = passwordInput.value.trim();
+
+        if (!email || !password) {
+          errorMessage.textContent = 'Ingresa tu email y contraseña para continuar.';
+          errorMessage.classList.remove('hidden');
+          return;
+        }
+
+        if (email !== AUTH_EMAIL || password !== AUTH_PASSWORD) {
+          errorMessage.textContent = 'Credenciales inválidas. Verifica tus datos.';
+          errorMessage.classList.remove('hidden');
+          return;
+        }
+
+        const sessionToken = `shopy_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+        localStorage.setItem('shopy_session', sessionToken);
+        errorMessage.classList.add('hidden');
+        window.location.href = './dashboard.html';
+      });
+    </script>
+  </body>
+</html>
