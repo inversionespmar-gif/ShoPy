@@ -100,8 +100,9 @@
           <label class="relative mx-auto w-full max-w-xl">
             <i data-lucide="search" class="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"></i>
             <input
+              id="topSearch"
               type="search"
-              placeholder="Search"
+              placeholder="Buscar por nombre de producto"
               class="w-full rounded-xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-sm shadow-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
             />
           </label>
@@ -203,7 +204,7 @@
           <div class="mb-4 flex items-center justify-between">
             <div>
               <p class="text-sm text-slate-500">Selling</p>
-              <p class="text-3xl font-bold text-slate-900">4194592</p>
+              <p class="text-3xl font-bold text-slate-900">4.194.592 Gs</p>
               <p class="text-xs text-slate-500">(125k avg.score)</p>
             </div>
             <p class="text-sm font-semibold text-emerald-500">+25.02%</p>
@@ -241,6 +242,192 @@
             </div>
           </div>
         </section>
+
+        <section class="mt-6 rounded-xl border border-slate-200 bg-white shadow-sm">
+          <div class="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+            <h2 class="text-lg font-bold text-slate-900">All Ads listings</h2>
+            <span class="rounded-lg bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">5 Products</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-left text-sm">
+              <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
+                <tr>
+                  <th class="px-5 py-3">Imagen</th>
+                  <th class="px-5 py-3">Nombre</th>
+                  <th class="px-5 py-3">Tipo</th>
+                  <th class="px-5 py-3">Modalidad</th>
+                  <th class="px-5 py-3">Vistas</th>
+                  <th class="px-5 py-3">Clics</th>
+                  <th class="px-5 py-3">CTR</th>
+                  <th class="px-5 py-3">Costo</th>
+                  <th class="px-5 py-3">Venta</th>
+                </tr>
+              </thead>
+              <tbody id="adsTableBody" class="divide-y divide-slate-100">
+                <tr class="ad-row hover:bg-slate-50" data-name="Chair Comfort">
+                  <td class="px-5 py-4">
+                    <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=80&q=80" alt="Chair Comfort" class="h-11 w-11 rounded-lg object-cover" />
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900 product-name">Chair Comfort</p>
+                    <p class="text-xs text-slate-500">Limitless time</p>
+                  </td>
+                  <td class="px-5 py-4 text-slate-700">Search Product</td>
+                  <td class="px-5 py-4 text-slate-700">Without limit</td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">2k</p>
+                    <p class="text-xs font-medium text-rose-500">-80%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">88</p>
+                    <p class="text-xs font-medium text-rose-500">-80%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">4,45%</p>
+                    <p class="text-xs font-medium text-emerald-500">+4,1%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">95.000 Gs</p>
+                    <p class="text-xs font-medium text-emerald-500">+8%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">4.050.000 Gs</p>
+                    <p class="text-xs font-medium text-emerald-500">+60%</p>
+                  </td>
+                </tr>
+
+                <tr class="ad-row hover:bg-slate-50" data-name="Chair Labelis">
+                  <td class="px-5 py-4">
+                    <img src="https://images.unsplash.com/photo-1484101403633-562f891dc89a?auto=format&fit=crop&w=80&q=80" alt="Chair Labelis" class="h-11 w-11 rounded-lg object-cover" />
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900 product-name">Chair Labelis</p>
+                    <p class="text-xs text-slate-500">Limitless time</p>
+                  </td>
+                  <td class="px-5 py-4 text-slate-700">Search Product</td>
+                  <td class="px-5 py-4 text-slate-700">Without limit</td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">170</p>
+                    <p class="text-xs font-medium text-emerald-500">+70%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">180</p>
+                    <p class="text-xs font-medium text-emerald-500">+20%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">4,45%</p>
+                    <p class="text-xs font-medium text-emerald-500">+6,1%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">145.000 Gs</p>
+                    <p class="text-xs font-medium text-rose-500">-8%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">2.800.000 Gs</p>
+                    <p class="text-xs font-medium text-rose-500">-80%</p>
+                  </td>
+                </tr>
+
+                <tr class="ad-row hover:bg-slate-50" data-name="Sofa Infinity">
+                  <td class="px-5 py-4">
+                    <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=80&q=80" alt="Sofa Infinity" class="h-11 w-11 rounded-lg object-cover" />
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900 product-name">Sofa Infinity</p>
+                    <p class="text-xs text-slate-500">30 days promo</p>
+                  </td>
+                  <td class="px-5 py-4 text-slate-700">Display Ads</td>
+                  <td class="px-5 py-4 text-slate-700">Budget capped</td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">5,2k</p>
+                    <p class="text-xs font-medium text-emerald-500">+12%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">310</p>
+                    <p class="text-xs font-medium text-emerald-500">+9%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">5,96%</p>
+                    <p class="text-xs font-medium text-emerald-500">+1,4%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">220.000 Gs</p>
+                    <p class="text-xs font-medium text-emerald-500">+5%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">6.340.000 Gs</p>
+                    <p class="text-xs font-medium text-emerald-500">+14%</p>
+                  </td>
+                </tr>
+
+                <tr class="ad-row hover:bg-slate-50" data-name="Table Nordic">
+                  <td class="px-5 py-4">
+                    <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=80&q=80" alt="Table Nordic" class="h-11 w-11 rounded-lg object-cover" />
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900 product-name">Table Nordic</p>
+                    <p class="text-xs text-slate-500">15 days boost</p>
+                  </td>
+                  <td class="px-5 py-4 text-slate-700">Search Product</td>
+                  <td class="px-5 py-4 text-slate-700">Without limit</td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">1,7k</p>
+                    <p class="text-xs font-medium text-rose-500">-5%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">121</p>
+                    <p class="text-xs font-medium text-rose-500">-2%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">7,11%</p>
+                    <p class="text-xs font-medium text-emerald-500">+0,8%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">120.000 Gs</p>
+                    <p class="text-xs font-medium text-rose-500">-1%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">3.500.000 Gs</p>
+                    <p class="text-xs font-medium text-emerald-500">+3%</p>
+                  </td>
+                </tr>
+
+                <tr class="ad-row hover:bg-slate-50" data-name="Lamp Aurora">
+                  <td class="px-5 py-4">
+                    <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=80&q=80" alt="Lamp Aurora" class="h-11 w-11 rounded-lg object-cover" />
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900 product-name">Lamp Aurora</p>
+                    <p class="text-xs text-slate-500">Weekend campaign</p>
+                  </td>
+                  <td class="px-5 py-4 text-slate-700">Display Ads</td>
+                  <td class="px-5 py-4 text-slate-700">Budget capped</td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">890</p>
+                    <p class="text-xs font-medium text-emerald-500">+18%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">77</p>
+                    <p class="text-xs font-medium text-emerald-500">+11%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">8,65%</p>
+                    <p class="text-xs font-medium text-emerald-500">+2,4%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">80.000 Gs</p>
+                    <p class="text-xs font-medium text-emerald-500">+2%</p>
+                  </td>
+                  <td class="px-5 py-4">
+                    <p class="font-semibold text-slate-900">1.850.000 Gs</p>
+                    <p class="text-xs font-medium text-emerald-500">+9%</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
       </main>
     </div>
 
@@ -255,13 +442,15 @@
       gradient.addColorStop(0, 'rgba(37, 99, 235, 0.35)');
       gradient.addColorStop(1, 'rgba(37, 99, 235, 0.02)');
 
+      const formatPYG = (value) => `${Number(value).toLocaleString('es-PY')} Gs`;
+
       new Chart(chartContext, {
         type: 'line',
         data: {
           labels: ['00', '03', '06', '09', '12', '15', '18', '21', '24', '28'],
           datasets: [
             {
-              data: [10, 58, 27, 34, 20, 41, 24, 29, 18, 12],
+              data: [450000, 1290000, 910000, 1320000, 1080000, 1690000, 1200000, 1460000, 980000, 760000],
               fill: true,
               backgroundColor: gradient,
               borderColor: '#2563EB',
@@ -282,7 +471,12 @@
               backgroundColor: '#0F172A',
               titleColor: '#fff',
               bodyColor: '#fff',
-              displayColors: false
+              displayColors: false,
+              callbacks: {
+                label(context) {
+                  return formatPYG(context.raw);
+                }
+              }
             }
           },
           scales: {
@@ -293,10 +487,28 @@
             y: {
               beginAtZero: true,
               grid: { color: 'rgba(148, 163, 184, 0.18)' },
-              ticks: { display: false }
+              ticks: {
+                color: '#64748B',
+                callback(value) {
+                  return formatPYG(value);
+                }
+              }
             }
           }
         }
+      });
+
+      const topSearchInput = document.getElementById('topSearch');
+      const adRows = Array.from(document.querySelectorAll('.ad-row'));
+
+      topSearchInput.addEventListener('input', (event) => {
+        const query = event.target.value.trim().toLowerCase();
+
+        adRows.forEach((row) => {
+          const productName = row.dataset.name.toLowerCase();
+          const matches = productName.includes(query);
+          row.classList.toggle('hidden', !matches);
+        });
       });
     </script>
   </body>
